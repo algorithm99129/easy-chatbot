@@ -1,0 +1,30 @@
+[
+  {
+    "question": "How do I sign up for an account?",
+    "answer": "Click the 'Sign Up' button at the top right of the homepage, fill in your details, and you're all set. We also have a tutorial video to guide you through the process."
+  },
+  {
+    "question": "How can I find products that match my preferences?",
+    "answer": "You can use our AI search feature to find products based on your preferences. Just enter what you're looking for, and our AI will recommend the best matches."
+  },
+  {
+    "question": "How do I find the right product category?",
+    "answer": "You can use our search bar on the homepage. If you're unsure, our AI suggestions will help narrow down the options."
+  },
+  {
+    "question": "Can I see similar products before making a decision?",
+    "answer": "Yes, with sorting features you can browse similar products in a different way."
+  },
+  {
+    "question": "What should I do if I can't find what I'm looking for?",
+    "answer": "You can use our advanced filters or contact our support team for assistance. We also offer AI-driven recommendations based on your search."
+  },
+  {
+    "question": "How do I get in touch with the seller?",
+    "answer": "You can contact the seller directly from the product page using the 'Contact Seller' section."
+  },
+  {
+    "question": "Where can I find help if I’m stuck?",
+    "answer": "If you need assistance, we have detailed tutorial videos available, or you can reach out to our customer support team."
+  }
+]

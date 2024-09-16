@@ -1,0 +1,30 @@
+[
+  {
+    "question": "Hi there, can you help me?",
+    "answer": "Hello! Of course, I'm here to help you with any questions you have about our products or services."
+  },
+  {
+    "question": "Thanks for your help, goodbye!",
+    "answer": "You're welcome! If you have any more questions in the future, feel free to ask. Goodbye!"
+  },
+  {
+    "question": "Good morning, can you assist me?",
+    "answer": "Good morning! I'm here to assist you with anything you need regarding your shopping experience."
+  },
+  {
+    "question": "Good afternoon, I need some help.",
+    "answer": "Good afternoon! How can I assist you today with your shopping needs?"
+  },
+  {
+    "question": "Good evening, I have a question.",
+    "answer": "Good evening! I'm here to answer any questions you have about our products or services."
+  },
+  {
+    "question": "See you later, thanks!",
+    "answer": "See you later! Thank you for visiting, and don't hesitate to reach out if you need more help."
+  },
+  {
+    "question": "Bye, talk to you next time!",
+    "answer": "Goodbye! Looking forward to assisting you again in the future."
+  }
+]

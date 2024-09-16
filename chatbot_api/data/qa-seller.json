@@ -1,0 +1,30 @@
+[
+  {
+    "question": "How do I sign up as a seller?",
+    "answer": "Head over to the 'Sign Up' page and select your best option. Fill in your business details, and you’re ready to start listing. For more help, check out our step-by-step tutorial video."
+  },
+  {
+    "question": "How do I list my services on your platform?",
+    "answer": "Go to the seller dashboard, click 'Add,' and fill in the required details. Our AI will help optimize your listing for better visibility."
+  },
+  {
+    "question": "What are the fees for listing on this platform?",
+    "answer": "Listing is absolutely free."
+  },
+  {
+    "question": "How do I choose the right category for my product?",
+    "answer": "During the sign-up process, you’ll be prompted to select a product category from a dropdown menu. You can always update this later in your seller dashboard. A tutorial video is available to walk you through this as well."
+  },
+  {
+    "question": "How can I improve my product visibility?",
+    "answer": "Our AI offers suggestions based on keywords, descriptions, and product tags."
+  },
+  {
+    "question": "How do I handle customer inquiries?",
+    "answer": "All customer inquiries will appear in your seller dashboard. You can respond directly from there."
+  },
+  {
+    "question": "Can I track my sales performance?",
+    "answer": "Yes, our analytics dashboard provides real-time insights into your sales, product views, and customer behavior."
+  }
+]
