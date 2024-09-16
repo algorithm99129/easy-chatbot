@@ -1,9 +1,19 @@
-from fastapi import FastAPI, HTTPException
+from typing import List
+from fastapi import Depends, FastAPI, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer, util
 from fastapi.middleware.cors import CORSMiddleware
 import json
 import uvicorn
+from db import get_db, QAPair, my_db
+from sqlalchemy.orm import Session
+
+from db_analysis_functions import FUNC_MAP
+from utils import convert_numpy_int64
+
+FUNC_KEY = "[method]:"
+THRESHOLD = 0.1
 
 app = FastAPI()
 
@@ -39,9 +49,9 @@ def load_qa_pairs(filename: str):
         )
 
 
-def prepare_embeddings(qa_pairs: list):
+def prepare_embeddings(qa_pairs: List[QAPair]):
     """Prepare embeddings for the questions in the QA pairs."""
-    questions = [pair["question"] for pair in qa_pairs]
+    questions = [pair.question for pair in qa_pairs]
     question_embeddings = model.encode(questions, convert_to_tensor=True)
     return questions, question_embeddings
 
@@ -50,22 +60,23 @@ def get_most_similar_answer(user_question: str, question_embeddings, qa_pairs: l
     """Find the most similar answer to the user's question."""
     user_question_embedding = model.encode(user_question, convert_to_tensor=True)
     similarities = util.pytorch_cos_sim(user_question_embedding, question_embeddings)
+    if similarities.max().item() < THRESHOLD:
+        return None
+
     best_match_idx = similarities.argmax().item()
-    return qa_pairs[best_match_idx]["answer"]
+    return qa_pairs[best_match_idx].answer
 
 
-# Load QA pairs and prepare embeddings at startup
-greetings = load_qa_pairs("./data/greetings.json")
-
-qa_pairs_customer = load_qa_pairs("./data/qa-customer.json") + greetings
-questions_customer, question_embeddings_customer = prepare_embeddings(qa_pairs_customer)
-
-qa_pairs_seller = load_qa_pairs("./data/qa-seller.json") + greetings
-questions_seller, question_embeddings_seller = prepare_embeddings(qa_pairs_seller)
+def load_qa_pairs_from_db(db: Session, type: str = None):
+    """Load QA pairs from the database."""
+    query = db.query(QAPair)
+    if type:
+        query = query.filter(QAPair.type == type)
+    return query.all()
 
 
 @app.post("/chat")
-async def chat(request: ChatRequest):
+async def chat(request: ChatRequest, db: Session = Depends(get_db)):
     """
     Chat endpoint to get the most similar answer based on user role and question.
     """
@@ -84,8 +95,36 @@ async def chat(request: ChatRequest):
             request.message, question_embeddings_seller, qa_pairs_seller
         )
 
-    return {"answer": answer}
+    if answer is None:
+        return {"answer": "N/A", "type": "error"}
+
+    response_type = "text"
+    answer_text = str(answer)
+
+    if answer_text.startswith(FUNC_KEY):
+        function_name = answer_text[len(FUNC_KEY) :]
+        response_data = FUNC_MAP[function_name]["method"](db=db)
+        response_type = FUNC_MAP[function_name]["type"]
+        return JSONResponse(content={"data": response_data, "type": response_type})
+
+    return {"answer": answer_text, "type": response_type}
 
 
 if __name__ == "__main__":
+    global qa_pairs_customer, question_embeddings_customer
+    global qa_pairs_seller, question_embeddings_seller
+
+    with my_db() as db:
+        greetings = load_qa_pairs_from_db(db, type=None)
+
+        qa_pairs_customer = load_qa_pairs_from_db(db, type="customer") + greetings
+        questions_customer, question_embeddings_customer = prepare_embeddings(
+            qa_pairs_customer
+        )
+
+        qa_pairs_seller = load_qa_pairs_from_db(db, type="seller") + greetings
+        questions_seller, question_embeddings_seller = prepare_embeddings(
+            qa_pairs_seller
+        )
+
     uvicorn.run(app, host="0.0.0.0", port=8000)

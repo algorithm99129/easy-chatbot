@@ -1,0 +1,10 @@
+[
+  {
+    "question": "How many question and answers are there?",
+    "answer": "[method]:count_questions_by_type"
+  },
+  {
+    "question": "Show me head of qa_pairs table data",
+    "answer": "[method]:get_qa_pairs_sample"
+  }
+]
