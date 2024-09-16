@@ -1,0 +1,73 @@
+[
+  {
+    "question": "How do I sign up as a seller?",
+    "answer": "Head over to the 'Sign Up' page and select your best option. Fill in your business details, and you’re ready to start listing. For more help, check out our step-by-step tutorial video.",
+    "type": "seller"
+  },
+  {
+    "question": "How do I list my services on your platform?",
+    "answer": "Go to the seller dashboard, click 'Add,' and fill in the required details. Our AI will help optimize your listing for better visibility.",
+    "type": "seller"
+  },
+  {
+    "question": "What are the fees for listing on this platform?",
+    "answer": "Listing is absolutely free.",
+    "type": "seller"
+  },
+  {
+    "question": "How do I choose the right category for my product?",
+    "answer": "During the sign-up process, you’ll be prompted to select a product category from a dropdown menu. You can always update this later in your seller dashboard. A tutorial video is available to walk you through this as well.",
+    "type": "seller"
+  },
+  {
+    "question": "How can I improve my product visibility?",
+    "answer": "Our AI offers suggestions based on keywords, descriptions, and product tags.",
+    "type": "seller"
+  },
+  {
+    "question": "How do I handle customer inquiries?",
+    "answer": "All customer inquiries will appear in your seller dashboard. You can respond directly from there.",
+    "type": "seller"
+  },
+  {
+    "question": "Can I track my sales performance?",
+    "answer": "Yes, our analytics dashboard provides real-time insights into your sales, product views, and customer behavior.",
+    "type": "seller"
+  },
+
+  {
+    "question": "How do I sign up for an account?",
+    "answer": "Click the 'Sign Up' button at the top right of the homepage, fill in your details, and you're all set. We also have a tutorial video to guide you through the process.",
+    "type": "customer"
+  },
+  {
+    "question": "How can I find products that match my preferences?",
+    "answer": "You can use our AI search feature to find products based on your preferences. Just enter what you're looking for, and our AI will recommend the best matches.",
+    "type": "customer"
+  },
+  {
+    "question": "How do I find the right product category?",
+    "answer": "You can use our search bar on the homepage. If you're unsure, our AI suggestions will help narrow down the options.",
+    "type": "customer"
+  },
+  {
+    "question": "Can I see similar products before making a decision?",
+    "answer": "Yes, with sorting features you can browse similar products in a different way.",
+    "type": "customer"
+  },
+  {
+    "question": "What should I do if I can't find what I'm looking for?",
+    "answer": "You can use our advanced filters or contact our support team for assistance. We also offer AI-driven recommendations based on your search.",
+    "type": "customer"
+  },
+  {
+    "question": "How do I get in touch with the seller?",
+    "answer": "You can contact the seller directly from the product page using the 'Contact Seller' section.",
+    "type": "customer"
+  },
+  {
+    "question": "Where can I find help if I’m stuck?",
+    "answer": "If you need assistance, we have detailed tutorial videos available, or you can reach out to our customer support team.",
+    "type": "customer"
+  }
+]

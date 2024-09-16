@@ -1,0 +1,6 @@
+[
+  {
+    "question": "How many question and answers are there?",
+    "answer": "[method]:count_questions_by_type"
+  }
+]
