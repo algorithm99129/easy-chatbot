@@ -3,15 +3,18 @@ import {
   MainContainer,
   MessageInput,
   MessageContainer,
-  MessageList,
-  MessageHeader,
-} from "@minchat/react-chat-ui";
-import MessageType from "@minchat/react-chat-ui/dist/types/MessageType";
-import { useCallback, useEffect, useState } from "react";
+  // MessageList,
+  MessageHeader
+} from '@minchat/react-chat-ui';
+// import MessageType from '@minchat/react-chat-ui/dist/types/MessageType';
+import { useCallback, useEffect, useState } from 'react';
+
+import MessageList, { Message } from './MessageList';
 
 function App() {
-  const [role, setRole] = useState<"seller" | "customer">("seller");
-  const [messages, setMessages] = useState<MessageType[]>([]);
+  const [role, setRole] = useState<'seller' | 'customer'>('seller');
+  // const [messages, setMessages] = useState<MessageType[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
     setMessages([]);
@@ -21,21 +24,33 @@ function App() {
     (text: string) => {
       setMessages((prv) => [
         ...prv,
-        { text, user: { id: "user", name: "You" } },
+        { text, user: { id: 'user', name: 'You' } }
       ]);
-      fetch("http://localhost:8000/chat", {
-        method: "POST",
+      fetch('http://192.168.130.235:8000/chat', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ message: text, type: role }),
+        body: JSON.stringify({ message: text, type: role })
       }).then(async (response) => {
         const jsonData = await response.json();
 
-        setMessages((prv) => [
-          ...prv,
-          { text: jsonData.answer, user: { id: "bot", name: "Bot" } },
-        ]);
+        if (jsonData.type === 'table') {
+          setMessages((prv) => [
+            ...prv,
+            { type: 'table', tableData: jsonData.data }
+          ]);
+        } else if (jsonData.type === 'chart') {
+          setMessages((prv) => [
+            ...prv,
+            { type: 'chart', chartData: jsonData.data }
+          ]);
+        } else {
+          setMessages((prv) => [
+            ...prv,
+            { text: jsonData.answer, user: { id: 'bot', name: 'Bot' } }
+          ]);
+        }
       });
     },
     [role]
@@ -44,23 +59,23 @@ function App() {
   return (
     <div
       style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-        flexDirection: "column",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        flexDirection: 'column'
       }}
     >
       <select
         value={role}
-        onChange={(e) => setRole(e.target.value as "seller" | "customer")}
-        style={{ marginBottom: "20px" }}
+        onChange={(e) => setRole(e.target.value as 'seller' | 'customer')}
+        style={{ marginBottom: '20px' }}
       >
         <option value="seller">Seller</option>
         <option value="customer">Customer</option>
       </select>
       <MinChatUiProvider theme="#6ea9d7">
-        <MainContainer style={{ height: "800px", width: "500px" }}>
+        <MainContainer style={{ height: '800px', width: '500px' }}>
           <MessageContainer>
             <MessageHeader />
             <MessageList currentUserId="dan" messages={messages} />

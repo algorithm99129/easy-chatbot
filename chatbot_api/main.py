@@ -13,6 +13,7 @@ from db_analysis_functions import FUNC_MAP
 from utils import convert_numpy_int64
 
 FUNC_KEY = "[method]:"
+THRESHOLD = 0.1
 
 app = FastAPI()
 
@@ -59,6 +60,9 @@ def get_most_similar_answer(user_question: str, question_embeddings, qa_pairs: l
     """Find the most similar answer to the user's question."""
     user_question_embedding = model.encode(user_question, convert_to_tensor=True)
     similarities = util.pytorch_cos_sim(user_question_embedding, question_embeddings)
+    if similarities.max().item() < THRESHOLD:
+        return None
+
     best_match_idx = similarities.argmax().item()
     return qa_pairs[best_match_idx].answer
 
@@ -91,15 +95,19 @@ async def chat(request: ChatRequest, db: Session = Depends(get_db)):
             request.message, question_embeddings_seller, qa_pairs_seller
         )
 
-    answer = str(answer)
-    type = "text"
-    if answer.startswith(FUNC_KEY):
-        func_name = answer[len(FUNC_KEY) :]
-        data = FUNC_MAP[func_name]["method"](db=db)
-        type = FUNC_MAP[func_name]["type"]
-        return JSONResponse(content={"data": data, "type": type})
+    if answer is None:
+        return {"answer": "N/A", "type": "error"}
 
-    return {"answer": answer, "type": type}
+    response_type = "text"
+    answer_text = str(answer)
+
+    if answer_text.startswith(FUNC_KEY):
+        function_name = answer_text[len(FUNC_KEY) :]
+        response_data = FUNC_MAP[function_name]["method"](db=db)
+        response_type = FUNC_MAP[function_name]["type"]
+        return JSONResponse(content={"data": response_data, "type": response_type})
+
+    return {"answer": answer_text, "type": response_type}
 
 
 if __name__ == "__main__":
